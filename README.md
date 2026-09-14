@@ -48,7 +48,7 @@ To customize the deployment, fork this repository and replace the `repo` paramet
 Blueprints do not yet create Workflow services, so add one in the [Render Dashboard](https://dashboard.render.com):
 
 1. Click **New** → **Workflow** and connect the same repository.
-2. Set the start command to `python -m workflow.main` and choose the Starter plan.
+2. Set the start command to `python -m workflow.main` and keep the default Flex task plan.
 3. Add `PARALLEL_API_KEY` and your model-provider credentials.
 4. Click **Create Workflow**.
 
