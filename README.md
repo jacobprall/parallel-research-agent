@@ -35,30 +35,24 @@ Before starting, create:
 - a model-provider API key, such as [Anthropic](https://console.anthropic.com) or [OpenAI](https://platform.openai.com)
 - a [Render API key](https://render.com/docs/api-keys)
 
-### 1. Deploy the gateway
+### 1. Deploy the Blueprint
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/parallel-research-agent)
 
-Enter the requested keys and leave `RENDER_WORKFLOW_SLUG` blank. The Blueprint creates the FastAPI gateway; you will add the Workflow service next.
+The Blueprint creates two services from this repository:
+
+- `parallel-research-gateway`, a FastAPI web service that accepts requests and dispatches runs
+- `parallel-research-workflow`, a Workflow service that runs the planning, research, and synthesis tasks
+
+Enter your Render API key for the gateway, and your Parallel and Anthropic keys for the Workflow. The Blueprint sets the gateway's `RENDER_WORKFLOW_SLUG` from the Workflow service, so the two are connected when the deploy finishes.
+
+The default models use Anthropic. For another provider, replace `ANTHROPIC_API_KEY` in `render.yaml` with that provider's key and set `LLM_MODEL` and `PLANNER_MODEL` to [LiteLLM model strings](https://docs.litellm.ai/docs/providers).
 
 To customize the deployment, fork this repository and replace the `repo` parameter in the button URL with your fork.
 
-### 2. Create the Workflow service
+Preview environments don't replicate Workflow services yet, so previews of this Blueprint include only the gateway.
 
-Blueprints do not yet create Workflow services, so add one in the [Render Dashboard](https://dashboard.render.com):
-
-1. Click **New** → **Workflow** and connect the same repository.
-2. Set the start command to `python -m workflow.main` and keep the default Flex task plan.
-3. Add `PARALLEL_API_KEY` and your model-provider credentials.
-4. Click **Create Workflow**.
-
-The default models use Anthropic. For another provider, also set `LLM_MODEL` and `PLANNER_MODEL` to [LiteLLM model strings](https://docs.litellm.ai/docs/providers).
-
-### 3. Connect the gateway
-
-Copy the Workflow service slug, then set `RENDER_WORKFLOW_SLUG` on the gateway. The gateway redeploys automatically.
-
-### 4. Start a run
+### 2. Start a run
 
 The Blueprint generates `API_SECRET` for the gateway. Copy it from the gateway's Environment page and send it as a bearer token:
 
@@ -81,7 +75,7 @@ The home page includes a demo form for local development, where `API_SECRET` can
 
 ```
 parallel-research-agent/
-├── render.yaml                # Gateway Blueprint
+├── render.yaml                # Blueprint: gateway + Workflow
 ├── gateway/
 │   ├── main.py                # HTTP API
 │   └── templates/index.html   # Demo UI

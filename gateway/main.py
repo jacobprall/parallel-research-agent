@@ -205,8 +205,8 @@ async def start_research(req: ResearchRequest, request: Request):
         raise HTTPException(
             status_code=503,
             detail=(
-                "RENDER_WORKFLOW_SLUG is not set. Create the Workflow service "
-                "in the Render Dashboard and set this env var to its slug."
+                "RENDER_WORKFLOW_SLUG is not set. Deploy the Blueprint to "
+                "create the Workflow service, or set this env var to its slug."
             ),
         )
 
