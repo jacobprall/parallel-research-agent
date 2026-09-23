@@ -4,8 +4,8 @@ This file is the start command for the Workflow service. It imports all
 task definitions so they register with the Render SDK, then starts the
 task runner that listens for dispatched runs.
 
-Start command (set in Dashboard):
-    python workflow/main.py
+Start command (set in render.yaml):
+    python -m workflow.main
 """
 
 from workflow.tasks import app
